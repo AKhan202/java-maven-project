@@ -1,6 +1,6 @@
 package main.java.com.example;
 
-public class Main {
+public class MainTest {
 
     public static void main(String[] args) {
         // Print a greeting message
