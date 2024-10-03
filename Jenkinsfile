@@ -27,7 +27,9 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
+                    echo 'Starting to build Docker image...'
                     docker.build("${java-maven}:${latest}")
+                    echo 'Docker image built successfully.'
                 }
             }
         }
