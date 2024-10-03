@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'  // Docker Hub credentials ID
-        DOCKER_IMAGE_NAME = 'myapp'
+        DOCKER_CREDENTIALS_ID = ''  // Docker Hub credentials ID
+        DOCKER_IMAGE_NAME = 'java-maven'
         DOCKER_IMAGE_TAG = 'latest'
-        REPO_URL = 'https://index.docker.io/v1/'         // Docker Hub URL
+        REPO_URL = 'https://hub.docker.com/repositories/khana88'         // Docker Hub URL
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout code from Git repository
-                git 'https://github.com/yourusername/your-repo.git'
+                git 'https://github.com/AKhan202/java-maven-project.git'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+                    docker.build("${java-maven}:${latest}")
                 }
             }
         }
@@ -35,14 +35,17 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Log in to Docker Hub and push the image
-                    docker.withRegistry("${REPO_URL}", "${DOCKER_CREDENTIALS_ID}") {
-                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push("${DOCKER_IMAGE_TAG}")
-                    }
-                }
+
+            // Log in to Docker Hub and push the image
+                    docker.withRegistry('https://index.docker.io/v1/', 'khana88') {
+                    docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push("latest")
             }
         }
     }
+}
+            }
+        }
+    
 
     post {
         always {
@@ -50,4 +53,4 @@ pipeline {
             sh 'docker system prune -f'
         }
     }
-}
+
